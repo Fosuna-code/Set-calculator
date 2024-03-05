@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramas de venn</title>
+    <script src="js.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="draw();">
+    <div class="container">
+        <canvas id="venn" width="500" height="300"></canvas>
+        <div> 
+            <p>Conjunto U</p>
+            <input type="text" id="U">
+            <button onclick="getU();" id="buttonU">Agregar</button>
+        </div>
+       <div> 
+            <p>Conjunto A</p>
+            <input type="text" id="A">
+            <button onclick="getA();">Agregar</button>
+        </div>
+        <div> 
+            <p>Conjunto B</p>
+            <input type="text" >
+            <button>Agregar</button>
+        </div>
+    </div>
+</body>
+</html>

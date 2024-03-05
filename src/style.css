@@ -1,0 +1,18 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+canvas {
+    border: 1px solid black;
+}
+p{
+    display: inline-block;
+    margin: 0;
+}
+input{
+    display: inline-block;
+}
