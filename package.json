@@ -16,5 +16,14 @@
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.2"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "builddev": "webpack --mode development",
+    "start": "webpack-dev-server --mode development --open"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "venn.js": "^0.2.20"
   }
 }
