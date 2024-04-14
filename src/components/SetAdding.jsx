@@ -2,14 +2,18 @@ import React from "react";
 import { useContext } from "react";
 import { SetContext } from "../Context";
 
-function SetAdding({name}){
+function SetAdding(){
+    
     const context = useContext(SetContext)
+    
+    const addSet = context.addSet;
+    console.log(addSet)
     return(
-        <div> 
-            <p>{`conjunto ${name}`}</p>
-            <input type="text" id="U"></input>
-            <button  id="buttonU">Agregar</button>
-        </div>
+        <form onSubmit={addSet} id="addsetForm"> 
+            <label htmlFor="setname" id="addsetLabel">Add a set name</label>
+            <input type="text" name="setname" id="setname"/>
+            <button type="submit" id="addsetBtn">Add set</button>
+        </form>
     )
 }
 export default SetAdding;

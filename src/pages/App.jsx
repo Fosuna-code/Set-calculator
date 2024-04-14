@@ -5,14 +5,14 @@ import SetAdding from "../components/SetAdding";
 import Venn from "../components/Venn";
 function App(){
     return (
-        <SetProvider>        
-            <div className="container">
-                <Venn/>
-                {/* <SetAdding name="U"/> */}
-                <SetAdding name="A"/>
-                <SetAdding name="B"/>
-            </div>
-          </SetProvider>
+        <div id="app">
+            <section id="diagramPlusForm-container">
+                <SetProvider>        
+                    <Venn/>
+                    <SetAdding/>
+                </SetProvider>
+            </section>   
+        </div>    
     )
 }
 export default App

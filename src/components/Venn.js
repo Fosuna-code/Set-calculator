@@ -13,8 +13,7 @@ function Venn(){
         var chart = VennDiagram()
         d3.select("#venn").datum(sets).call(chart);
 
-      }, []); // The empty dependency array ensures this effect runs only once, like componentDidMount
-    
+      }, [context]); //Every time the context changes, the diagram does aswell
     return(
         <div id="venn"> 
         </div>
