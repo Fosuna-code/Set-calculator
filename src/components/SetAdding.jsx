@@ -7,7 +7,7 @@ function SetAdding(){
     const context = useContext(SetContext)
     
     const addSet = context.addSet;
-    console.log(addSet)
+    
     return(
         <form onSubmit={addSet} id="addsetForm"> 
             <label htmlFor="setname" id="addsetLabel">Add a set name</label>
