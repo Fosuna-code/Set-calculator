@@ -4,7 +4,7 @@ import SetForm from './SetForm'
 
 export default function SetContentForms() {
   const context = useContext(SetContext)
-  const allsets = context.sets
+  const allsets = context.setelements
   
   return (
     <div id='setContentForms-container'>
