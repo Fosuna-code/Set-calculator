@@ -21,20 +21,21 @@ input{
     display: inline-block;
 }
 #diagramPlusForm-container{
-    width: 100vw;
-    height: 95vh;
+    width: 100%;
+    height: 100%;
     margin-top: 1vh;
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
+    grid-column: 2/3;
+    grid-row: 1/2;
 }
 #venn{
     margin: 0;
-    width: 90vw;
-    height: 80vh;
-    padding-left:2.5vw;
-    padding-right: 2.5vw;
+    width: 90%;
+    height: 80%;
+    padding: 0 1rem 0 1rem;
     border: 1px solid black;
     display: flex;
     align-items: center;
@@ -49,4 +50,82 @@ input{
 }
 #addsetLabel{
     margin-right: 1vw;
+}
+#setprovider-container{
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 30vw 70vw;
+    grid-template-rows: 65vh 35vh;
+}
+#sidebar-container{
+    height: 100%;
+    width: 100%;
+    grid-column: 1/2;
+    grid-row: 1/2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+}
+#sidebar{
+    border: 1px solid black;
+    width: 90%;
+    height: 100%;
+    flex-flow: column, nowrap;
+    display: flex;
+    align-items: flex-start;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+#toggle-sidebar{
+    align-self: start;
+    margin-left: 1.5vw;
+}
+.setelements-form{
+    width: 25vw;
+    height: 5vh;
+    margin: 1rem 0 1rem 0;
+    display: grid;
+    grid-template-columns: 85% 15%;
+    grid-template-rows: repeat(50%, 2);
+    padding: 0.5rem;
+}
+.setelements-label{
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    grid-column: 1/3;
+    grid-row: 1/2;
+}
+.setelements-btn{
+    width: 100%;
+    height: 100%;
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+#keyboard-container{
+    width: 100%;
+    height: 100%;
+    grid-row: 2/3;
+    grid-column: 1/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.keyboardbtn{
+    width: 100%;
+    height: 100%;
+}
+#setkeyboard{
+    width: 40%;
+    height: 90%;
+    display: grid;
+    grid-template-rows: 20% 80%;
+    grid-row: 1/2;
+}
+#keyboard-btns{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-row: 2/3;
 }
