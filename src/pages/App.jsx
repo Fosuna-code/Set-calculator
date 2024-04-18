@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { SetProvider, SetContext } from "../Context";
 import SetAdding from "../components/SetAdding";
+import SetContentForms from "../components/SetContentForms";
 
 import Venn from "../components/Venn";
 function App(){
@@ -10,6 +11,8 @@ function App(){
                 <SetProvider>        
                     <Venn/>
                     <SetAdding/>
+
+                    <SetContentForms/>
                 </SetProvider>
             </section>   
         </div>    
