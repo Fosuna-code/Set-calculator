@@ -1,26 +1,32 @@
 import React, { useState } from 'react'
 import SetContentForms from './SetContentForms'
+import DisplayInSidebar from './DisplayInSidebar'
 
 export default function Sidebar() {
     const [isSidebarVisible, changeSidebar] = useState(true)
-    
+
+    const [sidebarShown, setSidebarShown] = useState('setforms')
+
     const toggleSidebar = ()=>{
         changeSidebar(!isSidebarVisible)
-
-        if(isSidebarVisible){
-            document.getElementById('sidebar').style.visibility = 'visible'
-        } 
-        if(!isSidebarVisible){
-            document.getElementById('sidebar').style.visibility = 'hidden'
-        }
+    }
+    const showInSidebar = (menu)=>{
+        setSidebarShown(menu)
     }
     return (
-        <div id='sidebar-container'>
+        <>
             <button onClick={toggleSidebar} id='toggle-sidebar'>Toggle Sidebar</button>
-            <div id='sidebar'>
-                <SetContentForms/>
+            <div id='sidebar-menu'>
+                <button onClick={()=>{showInSidebar('setforms')}}>Content Forms</button>
+                <button onClick={()=>{showInSidebar('setsavail')}}>Available Sets</button>
+                <button onClick={()=>{showInSidebar('setcont')}}>Sets contents</button>
             </div>
-        </div>
+            <div id='sidebar' className={isSidebarVisible ? 'sidebar-active':'sidebar-inactive'}>
+                <DisplayInSidebar display={sidebarShown}>
+
+                </DisplayInSidebar>
+            </div>
+        </>
         
     )
 }

@@ -7,7 +7,7 @@ export default function SetForm({setname}) {
     return (
         <form onSubmit={modifySet} className='setelements-form'>
             <label htmlFor={`set${setname}elements`} className='setelements-label'>Add elements to set: {`${setname}`}</label>
-            <input type="text" placeholder='Separate every element with a comma' id={`set${setname}elements`} name='setelements' className={setname}/>
+            <input type="text" placeholder='Separate every element with a comma' id={setname} name='setelements' className='setelements-input'/>
             <button type='submit' className='setelements-btn'>Add</button>
         </form>
     )

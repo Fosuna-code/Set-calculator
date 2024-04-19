@@ -31,6 +31,7 @@ input{
     grid-column: 2/3;
     grid-row: 1/2;
 }
+
 #venn{
     margin: 0;
     width: 90%;
@@ -62,27 +63,46 @@ input{
     width: 100%;
     grid-column: 1/2;
     grid-row: 1/2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-flow: column nowrap;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    grid-template-rows: 15% 85%;
 }
 #sidebar{
     border: 1px solid black;
-    width: 90%;
+    width: 100%;
     height: 100%;
-    flex-flow: column, nowrap;
+    flex-flow: column nowrap;
     display: flex;
     align-items: flex-start;
+    justify-content: center;
     overflow-y: scroll;
     overflow-x: hidden;
+    grid-column: 2/3;
+    grid-row: 1/3;
 }
 #toggle-sidebar{
     align-self: start;
-    margin-left: 1.5vw;
+    grid-column: 1/2;
+    grid-row: 1/2;
+    height: 100%;
+    width: 100%;
+}
+#sidebar-menu{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    grid-row: 2/3;
+    grid-column: 1/2;
+}
+.sidebar-active{
+    visibility: visible;
+}
+.sidebar-inactive{
+    visibility: hidden;
 }
 .setelements-form{
-    width: 25vw;
+    width: 22.5vw;
     height: 5vh;
     margin: 1rem 0 1rem 0;
     display: grid;
@@ -125,7 +145,69 @@ input{
 }
 #keyboard-btns{
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row: 2/3;
+}
+#setpad{
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
+}
+#oppad{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(2,1fr);
+}
+#keyboard-input{
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.setelements-display{
+    width: 99%;
+    height: auto;
+    margin-bottom: 0.5vh;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: repeat(2, 1fr);
+}
+.el-display-h5{
+    text-align: center;
+    width: 100%;
+    height: 1vh;
+    grid-column: 1/3;
+    grid-row: 1/2;
+    
+}
+.el-display-p-cont{
+    width: 100%;
+    height: auto;
+    overflow-x: scroll;
     grid-row: 2/3;
+    grid-column: 1/2;
+}
+.card-display-p-cont{
+    width: 100%;
+    margin-top: 1vh;
+    height: 100%;
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+.setavailbtn{
+    width: 1;
+}
+#set-btns{
+    display: flex;
+    flex-wrap: wrap;
+    width: 20vw;
+}
+.setavailbtn{
+    width: 4vw;
+    height: 4vw;
+}
+.elems-p{
+    width: 100%;
+    text-align: center;
 }
