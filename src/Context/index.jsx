@@ -33,9 +33,8 @@ export const SetProvider = ({children }) =>{
     //starts like this, then it will change to the intersections evaluated at the end of the function
     let currentIntersectionsEvaluated = [...allSetsAvailable]
 
-    const possibleIntersections = (intersectionsToEvaluate, allSets) => {
-        //intersections to evalate will be the previous evaluated intersections
-
+    const possibleIntersections = (intersectionsToEvaluate, allSets)=>{
+        let newIntersections = []
         //this is just so it can be splited below if they are arrays, transforming every element into a string
         let intersectSet = [...intersectionsToEvaluate]
     
@@ -43,29 +42,20 @@ export const SetProvider = ({children }) =>{
         if(typeof intersectionsToEvaluate[0] === 'object'){
             intersectSet = intersectionsToEvaluate.map(el => el.join(','))
         }
-        //stores the new intersections with duplicates, before purging
-        let newIntersections = []
-        //this will loop through every current intersection
-        for(let i = 0; i< intersectSet.length; i++){
-            //this other loop is to evaluate every intersection with every element available
-            for(let j=0; j<allSets.length; j++){
-                let currSetToEval = intersectSet[i]
-                let currElToEval = allSets[j]
-                //this will be used to check if the element has been already evaluated to prevent intersections like 'A,A'
-                let elementRegexp = new RegExp(`${currElToEval}`)
-                //if it finds a match it is the same set, those intersections are redundadnt and unnecesary
-                if(!currSetToEval.match(elementRegexp)){       
-                    //sorts the intersection elements before storing them, so they can be properly purged
-                    //also adds the new element evaluated (wich is new and unique to the previous stored)
-                    let sortedIntersectionPlusEl = [...currSetToEval.split(','), currElToEval].toSorted()
-                
-                    newIntersections.push([...sortedIntersectionPlusEl])
+        let arrsToEval = [[...intersectSet], [...allSets]]
+        //first it flattens the first array then maps it extracting the first and second arrays elements, then compares them
+        //if it finds a match that is an 'A','A' intersection wich is redundant
+        //then pushes the combination to an array wich be purged
+        arrsToEval.reduce((farr, secarr) => {
+            return farr.flatMap(el => secarr.map(secel => {
+                let elementRegexp = new RegExp(`${secel}`)
+                if(!el.match(elementRegexp)){
+                    newIntersections.push([...el.split(','), secel].flat().toSorted())
                 }
-            }
-        }
+            }))
+        })
 
         let intersectionsTexts = newIntersections.map(el => el.join(','))
-    
         //purge duplicates
         let uniqueIntersectionsTexts = [... new Set(intersectionsTexts)]
         //revert to array with unique elements
@@ -75,26 +65,17 @@ export const SetProvider = ({children }) =>{
         currentIntersectionsEvaluated = [...purgedIntersections]
 
         return purgedIntersections  
-
     }
     //this for statement runs the function for every set so it can get all intersections possible
     
-        for(let r = 0; r < setelements.length; r++){
-            let freshIntersections = possibleIntersections(currentIntersectionsEvaluated, allSetsAvailable)
-            if(freshIntersections.length > 0){
-                allIntersectionsPossible = [...allIntersectionsPossible, ...freshIntersections]
-            }
+    for(let r = 0; r < setelements.length-1; r++){
+        let freshIntersections = possibleIntersections(currentIntersectionsEvaluated, allSetsAvailable)
+        if(freshIntersections.length > 0){
+            allIntersectionsPossible = [...allIntersectionsPossible, ...freshIntersections]
+            console.log(allIntersectionsPossible)
         }
-        const intersectionsToAdd = allIntersectionsPossible.map(el => {
-            return {sets: [...el], elements:[]}
-        })
-        const addIntersections = []
-        if(intersectionsToAdd.length > 0){
-            addIntersections.push(intersectionsToAdd)
-        }
-        console.log(allIntersectionsPossible)
-        console.log(intersectionsToAdd)   
-    
+    }
+
     const addSet = (e) => {
         e.preventDefault()
         const setname = e.target.elements.setname.value
