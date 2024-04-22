@@ -9,6 +9,10 @@ export const SetProvider = ({children }) =>{
         //it should be filled with objects with the following form:
         //{sets: ['name of the set'], elements: [element1, element2 ... elementn]}
     ])
+    const [confirmedIntersections, setIntersections] = useState([
+        //it should be filled with objects with the following form:
+        //{sets: ['name of the set 1', 'name of the set 2' ... 'name of the set n'], elements: [element1, element2 ... elementn]}
+    ])
     //store all intersections, with no repeated values, to control further intersection logic
     let allIntersectionsPossible = []
     // this will transform the setelements in an array of objects with the following form:
@@ -21,8 +25,8 @@ export const SetProvider = ({children }) =>{
         let setelsInstructions = setelements.map(element => {
             return {sets: element.sets, size: element.elements?.length || 12}
         })
-        let intersectInstructions = allIntersectionsPossible.map(el =>{
-            return {sets: el, size: 3}
+        let intersectInstructions = confirmedIntersections.map(el =>{
+            return {sets: el.sets, size: el.elements?.length || 3}
         })
         instructions = [...setelsInstructions, ...intersectInstructions]
         return instructions
@@ -46,8 +50,8 @@ export const SetProvider = ({children }) =>{
         //first it flattens the first array then maps it extracting the first and second arrays elements, then compares them
         //if it finds a match that is an 'A','A' intersection wich is redundant
         //then pushes the combination to an array wich be purged
-        arrsToEval.reduce((farr, secarr) => {
-            return farr.flatMap(el => secarr.map(secel => {
+        arrsToEval.reduce((acc, curArr) => {
+            return acc.flatMap(el => curArr.map(secel => {
                 let elementRegexp = new RegExp(`${secel}`)
                 if(!el.match(elementRegexp)){
                     newIntersections.push([...el.split(','), secel].flat().toSorted())
@@ -66,13 +70,55 @@ export const SetProvider = ({children }) =>{
 
         return purgedIntersections  
     }
-    //this for statement runs the function for every set so it can get all intersections possible
+
+    const getIntersections = (setModified)=>{
+        const dependentIntersections = allIntersectionsPossible.filter(el => el.indexOf(setModified) !== -1)
+        let intersectionElements = []
+        let intersectionFormed = ''
+        dependentIntersections.map(el => {
+            //gets the elements that can form an intersection with the set to extract the elements and eval them
+            let intersectionToEval = el.toSpliced(el.indexOf(setModified), 1).join(',')
+            //if it has a length of 1 it means is a single set not a previous evaluated intersection
+            //that means it has to get the data from the sets not the intersections
+            if(intersectionToEval.length === 1){
+                let setAElements = setelements.filter(el => el.sets.join('') === setModified)[0].elements
+                let intersectionBElements = setelements.filter(el => el.sets.join(',') === intersectionToEval)[0].elements
+                setAElements.map(el => {
+                    if(intersectionBElements.indexOf(el) !== -1){
+                        intersectionElements.push(el)
+                        intersectionFormed = `${intersectionToEval},${setModified}`
+                    }
+                })
+                //if there are intersections confirmed and whe intersection to eval is in fact an intersection extract the data from that intersection
+            } else if(confirmedIntersections.length > 0){
+                let setAElements = setelements.filter(el => el.sets.join('') === setModified)[0].elements
+                let intersectionBElements = confirmedIntersections.filter(el => el.sets.join(',') === intersectionToEval)
+                //if said intersection does exist and has elements in common with the set its a new intersection
+                if(intersectionBElements[0].elements){
+                    setAElements.map(el => {
+                        if(intersectionBElements.indexOf(el) !== -1){
+                            intersectionElements.push(el)
+                            intersectionFormed = `${intersectionToEval},${setModified}`
+                        }
+                    })
+                }    
+            }
+            
+        })
+        //if the intersection has elements, diagram it
+        if(intersectionElements.length > 0){
+            let intersectConfirmed = intersectionFormed.split(',').toSorted()
+            console.log(intersectConfirmed)
+            const updatedIntersections = [...confirmedIntersections, {sets: [...intersectConfirmed], elements: [...intersectionElements]}]
+            setIntersections(updatedIntersections)
+        }
+    }
     
+    //this for statement runs the function for every set so it can get all intersections possible
     for(let r = 0; r < setelements.length-1; r++){
         let freshIntersections = possibleIntersections(currentIntersectionsEvaluated, allSetsAvailable)
         if(freshIntersections.length > 0){
             allIntersectionsPossible = [...allIntersectionsPossible, ...freshIntersections]
-            console.log(allIntersectionsPossible)
         }
     }
 
@@ -93,12 +139,13 @@ export const SetProvider = ({children }) =>{
         console.log(setname)
         for(let setels of setelements){
             if(setels.sets.join('') === setname){
-                setels.elements = elements;
+                setels.elements = Array.from(new Set(elements));
                 //destructures the elements array for it to change the object reference and force a re-render of Venn
                 const newElements = [...setelements]
                 setSetelements(newElements)
             }
         }
+        console.log(getIntersections(setname))
     }
     return( 
        <SetContext.Provider value={{ setelements,addSet, modifySet, drawInstructions}}>
