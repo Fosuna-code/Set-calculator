@@ -26,9 +26,11 @@ export const SetProvider = ({children }) =>{
             return {sets: element.sets, size: element.elements?.length || 12}
         })
         let intersectInstructions = confirmedIntersections.map(el =>{
-            return {sets: el.sets, size: el.elements?.length || 3}
+            return {sets: el.sets, size: el.elements.length}
         })
+        console.log(confirmedIntersections.map(el => el))
         instructions = [...setelsInstructions, ...intersectInstructions]
+        console.log(instructions)
         return instructions
     }
     
@@ -73,8 +75,10 @@ export const SetProvider = ({children }) =>{
 
     const getIntersections = (setModified)=>{
         const dependentIntersections = allIntersectionsPossible.filter(el => el.indexOf(setModified) !== -1)
+        console.log(dependentIntersections)
         let intersectionElements = []
         let intersectionFormed = ''
+        let newIntersectionQueue = []
         dependentIntersections.map(el => {
             //gets the elements that can form an intersection with the set to extract the elements and eval them
             let intersectionToEval = el.toSpliced(el.indexOf(setModified), 1).join(',')
@@ -91,10 +95,13 @@ export const SetProvider = ({children }) =>{
                 })
                 //if there are intersections confirmed and whe intersection to eval is in fact an intersection extract the data from that intersection
             } else if(confirmedIntersections.length > 0){
+                console.log(confirmedIntersections)
                 let setAElements = setelements.filter(el => el.sets.join('') === setModified)[0].elements
-                let intersectionBElements = confirmedIntersections.filter(el => el.sets.join(',') === intersectionToEval)
+                let intersectionB = confirmedIntersections.filter(el => el.sets.join(',') === intersectionToEval)
                 //if said intersection does exist and has elements in common with the set its a new intersection
-                if(intersectionBElements[0].elements){
+                if(intersectionB[0].elements){
+                    console.log(intersectionB[0])
+                    let intersectionBElements = intersectionB[0].elements
                     setAElements.map(el => {
                         if(intersectionBElements.indexOf(el) !== -1){
                             intersectionElements.push(el)
@@ -102,15 +109,28 @@ export const SetProvider = ({children }) =>{
                         }
                     })
                 }    
+            } 
+            //if the intersection has elements, diagram it
+            if(intersectionElements.length > 0){
+                let intersectConfirmed = Array.from(new Set(intersectionFormed.split(','))).toSorted()
+                //makes a test to see if the intersection has been taken into account in a previous iteration
+                if(newIntersectionQueue.length > 0){
+                    let queueDupeTest = newIntersectionQueue.filter(elinqueue => elinqueue.sets.join(',') === intersectionFormed)
+                    if(queueDupeTest.length === 0){
+                        newIntersectionQueue.push({sets: [...intersectConfirmed], elements: [...intersectionElements]})
+                    }
+                } else {
+                    newIntersectionQueue.push({sets: [...intersectConfirmed], elements: [...intersectionElements]})
+                }
+                
+                console.log(intersectConfirmed)
+                
             }
-            
+            //refresh the elements for next iteration
+            intersectionElements = []
         })
-        //if the intersection has elements, diagram it
-        if(intersectionElements.length > 0){
-            let intersectConfirmed = intersectionFormed.split(',').toSorted()
-            console.log(intersectConfirmed)
-            const updatedIntersections = [...confirmedIntersections, {sets: [...intersectConfirmed], elements: [...intersectionElements]}]
-            setIntersections(updatedIntersections)
+        if(newIntersectionQueue.length > 0){
+            setIntersections([...confirmedIntersections, ...newIntersectionQueue])
         }
     }
     
@@ -145,7 +165,8 @@ export const SetProvider = ({children }) =>{
                 setSetelements(newElements)
             }
         }
-        console.log(getIntersections(setname))
+        getIntersections(setname)
+        console.log(confirmedIntersections)
     }
     return( 
        <SetContext.Provider value={{ setelements,addSet, modifySet, drawInstructions}}>
