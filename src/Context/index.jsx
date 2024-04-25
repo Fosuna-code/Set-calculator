@@ -99,7 +99,7 @@ export const SetProvider = ({children }) =>{
                 let setAElements = setelements.filter(el => el.sets.join('') === setModified)[0].elements
                 let intersectionB = confirmedIntersections.filter(el => el.sets.join(',') === intersectionToEval)
                 //if said intersection does exist and has elements in common with the set its a new intersection
-                if(intersectionB[0].elements){
+                if(intersectionB[0]?.elements){
                     console.log(intersectionB[0])
                     let intersectionBElements = intersectionB[0].elements
                     setAElements.map(el => {
