@@ -3,19 +3,12 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { SetContext } from "../Context";
 import { VennDiagram } from "venn.js";
-
+import { getRandomHex } from "../utilities/randomHexGenerator";
 import * as d3 from "d3";
 const colors = []
 
 function Venn(){
     const context = useContext(SetContext);
-    const getRandomHex = ()=>{
-        let r = Math.round(Math.random()*255).toString(16)
-        let g = Math.round(Math.random()*255).toString(16)
-        let b = Math.round(Math.random()*255).toString(16)
-        let hex = r+g+b
-        return `#${hex}`
-    }
     
     useEffect(() => {
         var sets = context.drawInstructions();
