@@ -11,23 +11,41 @@ export const SetProvider = ({children }) =>{
     ])
     const [confirmedIntersections, setIntersections] = useState([
         //it should be filled with objects with the following form:
-        //{sets: ['name of the set 1', 'name of the set 2' ... 'name of the set n'], elements: [element1, element2 ... elementn]}
+        //{sets: ['name of the set 1', 'name of the set 2' ... 'name of the set n'], elements: [element1, element2 ... elementn], subset: <bool>}
     ])
     //store all intersections, with no repeated values, to control further intersection logic
     let allIntersectionsPossible = []
     // this will transform the setelements in an array of objects with the following form:
     //     //{sets: ['name of the set'], size: <int: cardinality of the set>}
     //     //these objects are necessary for the Venn component to diagram them     
-    //     //note: by default all sets have a cardinality of 12, it will be changed in the future to change in function of the items stored in that set   
-    //     //TODO: manage intersection logic    
+    //     //note: by default all sets have a cardinality of 12 (if it has no elements in it)
     const drawInstructions = () => {
         let instructions = []
         let setelsInstructions = setelements.map(element => {
             return {sets: element.sets, size: element.elements?.length || 12}
         })
         let intersectInstructions = confirmedIntersections.map(el =>{
+            //what this does is that if an intersection is a subset adds size to the father set for it to display more properly
+            if(el.subset){
+                let setelsInstructionsTexts = setelsInstructions.map(set => set.sets.join(''))
+                let relatedSets = setelsInstructions.filter((it, index) => {
+                    return it.sets.join('') == setelsInstructionsTexts[index]
+            
+                })
+                
+                let fatherSet = relatedSets.reduce((acc, set) => {
+                    if(set.size >= acc.size){
+                        acc = set
+                    }
+                    return acc
+                })
+
+                let fatherSetIndex = setelsInstructionsTexts.indexOf(fatherSet.sets.join(''))
+                setelsInstructions[fatherSetIndex].size += 5
+            }
             return {sets: el.sets, size: el.elements.length}
         })
+
         console.log(confirmedIntersections.map(el => el))
         instructions = [...setelsInstructions, ...intersectInstructions]
         console.log(instructions)
@@ -79,6 +97,8 @@ export const SetProvider = ({children }) =>{
         let intersectionElements = []
         let intersectionFormed = ''
         let newIntersectionQueue = []
+        let isSubset = true
+
         dependentIntersections.map(el => {
             //gets the elements that can form an intersection with the set to extract the elements and eval them
             let intersectionToEval = el.toSpliced(el.indexOf(setModified), 1).join(',')
@@ -106,6 +126,8 @@ export const SetProvider = ({children }) =>{
                         if(intersectionBElements.indexOf(el) !== -1){
                             intersectionElements.push(el)
                             intersectionFormed = `${intersectionToEval},${setModified}`
+                        } else{
+                            isSubset = false
                         }
                     })
                 }    
@@ -117,10 +139,10 @@ export const SetProvider = ({children }) =>{
                 if(newIntersectionQueue.length > 0){
                     let queueDupeTest = newIntersectionQueue.filter(elinqueue => elinqueue.sets.join(',') === intersectionFormed)
                     if(queueDupeTest.length === 0){
-                        newIntersectionQueue.push({sets: [...intersectConfirmed], elements: [...intersectionElements]})
+                        newIntersectionQueue.push({sets: [...intersectConfirmed], elements: [...intersectionElements], subset: isSubset})
                     }
                 } else {
-                    newIntersectionQueue.push({sets: [...intersectConfirmed], elements: [...intersectionElements]})
+                    newIntersectionQueue.push({sets: [...intersectConfirmed], elements: [...intersectionElements], subset: isSubset})
                 }
                 
                 console.log(intersectConfirmed)
@@ -128,6 +150,7 @@ export const SetProvider = ({children }) =>{
             }
             //refresh the elements for next iteration
             intersectionElements = []
+            isSubset = false
         })
         if(newIntersectionQueue.length > 0){
             setIntersections([...confirmedIntersections, ...newIntersectionQueue])

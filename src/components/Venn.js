@@ -16,13 +16,10 @@ function Venn(){
         var chart = VennDiagram()
         d3.select("#venn").datum(sets).call(chart);
         
-        console.log(d3.selectAll('#venn path')._groups[0][0]?.attributes.style.value)
-        
         for(let i=0; i<context.setelements.length; i++){
             if(colors.length <= i){
                 colors.push(getRandomHex())
             }
-            console.log(colors)
             d3.selectAll('#venn path')._groups[0][i].attributes.style.value = `fill-opacity: 0.3; fill: ${colors[i]} `
         }
       //Every time the context changes, the diagram does aswell
