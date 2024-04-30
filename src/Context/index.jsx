@@ -41,7 +41,7 @@ export const SetProvider = ({children }) =>{
                 })
 
                 let fatherSetIndex = setelsInstructionsTexts.indexOf(fatherSet.sets.join(''))
-                setelsInstructions[fatherSetIndex].size += 5
+                setelsInstructions[fatherSetIndex].size += el.elements.length
             }
             return {sets: el.sets, size: el.elements.length}
         })
