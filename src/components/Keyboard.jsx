@@ -26,7 +26,7 @@ export default function Keyboard() {
   //this functions validates on-time the inputs, right now it just tests what the input contains
   const handleChange = (e)=>{
     let inputValue = e.target.value
-    let updatedCursorPosition = e.target.selectionStart
+    let updatedCursorPosition = e.target.selectionEnd
     //these are regular expressions used to validate some forms of input
     const setRegexp = /[^\(\)"]+/g
     const elementRegexp = /"\D+"/g
@@ -106,17 +106,18 @@ export default function Keyboard() {
       if(inputref.current) {
         inputref.current.focus()
         let updatedCursorPosition = inputref.current.selectionStart
+        
         inputValues.length > 0 ? inputValues[updatedCursorPosition -1] += val : inputValues[0] = val
         if(val === "N()"){
           await setInputVal(()=>{
             return {val: inputValues.join(''),
-            pos: updatedCursorPosition+= 2
+            pos: updatedCursorPosition + 2
             }
           })
         }else {
           await setInputVal(()=>{
             return {val: inputValues.join(''),
-            pos: updatedCursorPosition+= 1
+            pos: updatedCursorPosition + 1
             }
           })
         }
