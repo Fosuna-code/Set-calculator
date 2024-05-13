@@ -107,18 +107,25 @@ export default function Keyboard() {
         inputref.current.focus()
         let updatedCursorPosition = inputref.current.selectionStart
         inputValues.length > 0 ? inputValues[updatedCursorPosition -1] += val : inputValues[0] = val
-        console.log(updatedCursorPosition)
-        await setInputVal(()=>{
-          return {val: inputValues.join(''),
-          pos: updatedCursorPosition+= 1
-          }
-        })
-        console.log(inputVal.pos)
+        if(val === "N()"){
+          await setInputVal(()=>{
+            return {val: inputValues.join(''),
+            pos: updatedCursorPosition+= 2
+            }
+          })
+        }else {
+          await setInputVal(()=>{
+            return {val: inputValues.join(''),
+            pos: updatedCursorPosition+= 1
+            }
+          })
+        }
       }
-      //if the input is a parenthesis, preserve the previous state
-      if(val === "()"){
+      //if the input is a parenthesis, or the cardinality operator preserve the previous state
+      if(val === "()" || val === "N()"){
         setKeybState(()=>keyboardState)
-      }
+        //but in this case move the cursor to the right
+      } 
       else {  
         //if its a complement operation there has to be a normal operation next but not another complement one
         if(val === "'"){
@@ -190,7 +197,7 @@ export default function Keyboard() {
           <button className={`keyboardbtn ${keyboardState.complement}`} onClick={()=>{addInputVal("'", keyboardState.complement)}}>'</button>
           <button className={`keyboardbtn ${keyboardState.oppad}`} onClick={()=>{addInputVal('-', keyboardState.complement)}}>-</button>
           <button className={`keyboardbtn ${keyboardState.oppad}`} onClick={()=>{addInputVal('△', keyboardState.oppad)}}>△</button>
-          <button className={`keyboardbtn ${keyboardState.oppad}`} onClick={()=>{addInputVal('N()', keyboardState.oppad)}}>{`N()`}</button>
+          <button className={`keyboardbtn`} onClick={()=>{addInputVal('N()', 'show')}}>{`N()`}</button>
           <button className={`keyboardbtn ${keyboardState.oppad}`} onClick={()=>{addInputVal("⊂", keyboardState.oppad)}}>⊂</button>
           <button className={`keyboardbtn ${keyboardState.ispartOf}`} onClick={()=>{addInputVal("∈", keyboardState.ispartOf)}}>∈</button>
           <button className={`keyboardbtn`} onClick={()=>{addInputVal("()", 'show')}}>()</button>
