@@ -15,10 +15,10 @@ export const SetProvider = ({children }) =>{
     ])
     //store all intersections, with no repeated values, to control further intersection logic
     let allIntersectionsPossible = []
-    // this will transform the setelements in an array of objects with the following form:
-    //     //{sets: ['name of the set'], size: <int: cardinality of the set>}
-    //     //these objects are necessary for the Venn component to diagram them     
-    //     //note: by default all sets have a cardinality of 12 (if it has no elements in it)
+    // this function will transform the setelements and intersections in an array of objects with the following form:
+    //     {sets: ['name of the set'], size: <int: cardinality of the set>}
+    //     these objects are necessary for the Venn component to diagram them     
+    //     note: by default all sets have a cardinality of 12 (if it has no elements in it)
     const drawInstructions = () => {
         let instructions = []
         let setelsInstructions = setelements.map(element => {
@@ -46,17 +46,15 @@ export const SetProvider = ({children }) =>{
             return {sets: el.sets, size: el.elements.length}
         })
 
-        console.log(confirmedIntersections.map(el => el))
         instructions = [...setelsInstructions, ...intersectInstructions]
-        console.log(instructions)
         return instructions
     }
     
-    /*CODE BELOW THIS LINE IS PART OF THE POSSIBLE INTERSECTIONS FUNCTION*/
+    //used by the function below to keep track of the sets available at the moment
     let allSetsAvailable = setelements.map(el => el.sets.join(''))
-    //starts like this, then it will change to the intersections evaluated at the end of the function
+    //starts like this, then it will change to the intersections evaluated at the end of the possibleIntersections() function
     let currentIntersectionsEvaluated = [...allSetsAvailable]
-
+    //this function returns every intersection possible with the sets available at the moment to control the getIntersections() logic
     const possibleIntersections = (intersectionsToEvaluate, allSets)=>{
         let newIntersections = []
         //this is just so it can be splited below if they are arrays, transforming every element into a string
@@ -91,16 +89,16 @@ export const SetProvider = ({children }) =>{
         return purgedIntersections  
     }
 
+    //it evaluates every intersection possible and adds to the state those who are a confirmed intersection based on the elements of each set or the elements of an already confirmed intersection and the set modified when the function is called, it extracts the intersections possible that depend on the set modified, compares the data and pushes the new intersections with its elements, and evaluates if it is a subset or not 
     const getIntersections = (setModified)=>{
         const dependentIntersections = allIntersectionsPossible.filter(el => el.indexOf(setModified) !== -1)
-        console.log(dependentIntersections)
         let intersectionElements = []
         let intersectionFormed = ''
         let newIntersectionQueue = []
         let isSubset = true
 
         dependentIntersections.map(el => {
-            //gets the elements that can form an intersection with the set to extract the elements and eval them
+            //gets the elements that can form an intersection with the set to extract the elements and evaluate them
             let intersectionToEval = el.toSpliced(el.indexOf(setModified), 1).join(',')
             //if it has a length of 1 it means is a single set not a previous evaluated intersection
             //that means it has to get the data from the sets not the intersections
@@ -113,19 +111,19 @@ export const SetProvider = ({children }) =>{
                         intersectionFormed = `${intersectionToEval},${setModified}`
                     }
                 })
-                //if there are intersections confirmed and whe intersection to eval is in fact an intersection extract the data from that intersection
+                //if there are intersections confirmed and the intersection to eval is in fact an intersection, extract the data from that intersection
             } else if(confirmedIntersections.length > 0){
                 console.log(confirmedIntersections)
                 let setAElements = setelements.filter(el => el.sets.join('') === setModified)[0].elements
                 let intersectionB = confirmedIntersections.filter(el => el.sets.join(',') === intersectionToEval)
-                //if said intersection does exist and has elements in common with the set its a new intersection
+                //if said intersection does exist and has elements in common with the set modified its a new intersection
                 if(intersectionB[0]?.elements){
-                    console.log(intersectionB[0])
                     let intersectionBElements = intersectionB[0].elements
                     setAElements.map(el => {
                         if(intersectionBElements.indexOf(el) !== -1){
                             intersectionElements.push(el)
                             intersectionFormed = `${intersectionToEval},${setModified}`
+                            //if a single element is different from the father set then its NOT a subset
                         } else{
                             isSubset = false
                         }
@@ -134,10 +132,12 @@ export const SetProvider = ({children }) =>{
             } 
             //if the intersection has elements, diagram it
             if(intersectionElements.length > 0){
+                //gets the sets that make that intersection
                 let intersectConfirmed = Array.from(new Set(intersectionFormed.split(','))).toSorted()
-                //makes a test to see if the intersection has been taken into account in a previous iteration
+                //makes a test to see if the intersection has been already taken into account in a previous iteration
                 if(newIntersectionQueue.length > 0){
                     let queueDupeTest = newIntersectionQueue.filter(elinqueue => elinqueue.sets.join(',') === intersectionFormed)
+                    //if it doesnt find a match it means its a new intersection not evaluated yet
                     if(queueDupeTest.length === 0){
                         newIntersectionQueue.push({sets: [...intersectConfirmed], elements: [...intersectionElements], subset: isSubset})
                     }
@@ -145,13 +145,12 @@ export const SetProvider = ({children }) =>{
                     newIntersectionQueue.push({sets: [...intersectConfirmed], elements: [...intersectionElements], subset: isSubset})
                 }
                 
-                console.log(intersectConfirmed)
-                
             }
-            //refresh the elements for next iteration
+            //refresh the elements and subset status for the next iteration
             intersectionElements = []
             isSubset = false
         })
+        //finally it adds the new intersections formed to the state
         if(newIntersectionQueue.length > 0){
             setIntersections([...confirmedIntersections, ...newIntersectionQueue])
         }
@@ -164,7 +163,8 @@ export const SetProvider = ({children }) =>{
             allIntersectionsPossible = [...allIntersectionsPossible, ...freshIntersections]
         }
     }
-
+    //this adds a set to the state
+    //used in SetAdding
     const addSet = (e) => {
         e.preventDefault()
         const setname = e.target.elements.setname.value
@@ -173,7 +173,8 @@ export const SetProvider = ({children }) =>{
         setSetelements(newSetelements)  
     }
     
-
+    //this modifies the elements of an already defined set
+    //used in SetForm
     const modifySet = (e) => {
         e.preventDefault()
         const elementsTxt = e.target.elements.setelements.value

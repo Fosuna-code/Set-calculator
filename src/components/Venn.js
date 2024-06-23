@@ -11,12 +11,16 @@ function Venn(){
     const context = useContext(SetContext);
     
     useEffect(() => {
+        //extracts the data necessary to diagram the sets and intersections
         var sets = context.drawInstructions();
         
+        //diagrams the data extracted from the context
         var chart = VennDiagram()
         d3.select("#venn").datum(sets).call(chart);
         
+        //extracts every set's venn diagram to change its color to a random one using the d3 library
         for(let i=0; i<context.setelements.length; i++){
+            //makes sure the colors array only has the same size as the sets (not intersections) available
             if(colors.length <= i){
                 colors.push(getRandomHex())
             }

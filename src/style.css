@@ -149,20 +149,32 @@ input{
     grid-row: 2/3;
 }
 #setpad{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: scroll;
+}
+.setoppbtn{
+    width: 19%;
+    height: 25%;
+    padding: 0 1% 1% 0;
 }
 #oppad{
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(5,1fr);
     grid-template-rows: repeat(2,1fr);
 }
-#keyboard-input{
+.hide{
+    opacity: 30%;
+}
+.show{
+    opacity: 100%;
+}
+#keyboard-form{
     border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 80% 20%;
 }
 .setelements-display{
     width: 99%;
