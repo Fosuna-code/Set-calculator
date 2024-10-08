@@ -4,7 +4,7 @@ export const SetContext = createContext();
 
 
 export const SetProvider = ({children }) =>{
-
+    const [isSidebarVisible, changeSidebar] = useState(true)
     const [setelements, setSetelements] = useState([
         //it should be filled with objects with the following form:
         //{sets: ['name of the set'], elements: [element1, element2 ... elementn]}
@@ -183,7 +183,7 @@ export const SetProvider = ({children }) =>{
         console.log(setname)
         for(let setels of setelements){
             if(setels.sets.join('') === setname){
-                setels.elements = Array.from(new Set(elements));
+                setels.elements = Array.from(new Set(elements.map(el => el.trim())));
                 //destructures the elements array for it to change the object reference and force a re-render of Venn
                 const newElements = [...setelements]
                 setSetelements(newElements)
@@ -193,7 +193,7 @@ export const SetProvider = ({children }) =>{
         console.log(confirmedIntersections)
     }
     return( 
-       <SetContext.Provider value={{ setelements,addSet, modifySet, drawInstructions}}>
+       <SetContext.Provider value={{ setelements,addSet, modifySet, drawInstructions, isSidebarVisible, changeSidebar}}>
             {children}
        </SetContext.Provider>
     )

@@ -1,0 +1,28 @@
+#diagramms-container{
+    width: 100%;
+    height: 100%;
+    grid-row: 1/2;
+    grid-column: 3/4;
+}
+#diagramms-container.sidebar-hidden{
+    grid-column: 2/4;
+}
+#venn{
+    margin: auto;
+    width: 97.5%;
+    height: 94.75%;
+    border: 1px solid var(--light-primary);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-workarea);
+   
+}
+
+tspan{
+    fill: white;
+    font-family: monospace;
+    font-size: 20px;
+    text-shadow: -1px 1px 2px black;
+}

@@ -1,0 +1,56 @@
+#setkeyboard{
+    width: 97.5%;
+    height: 95%;
+    display: grid;
+    grid-template-rows: 20% 80%;
+    grid-row: 1/2;
+    background-color: var(--light-workarea);
+    border: 1px solid var(--light-primary);
+    border-radius: 1em;
+}
+
+#keyboard-form{
+    display: grid;
+    grid-template-columns: 80% 20%;
+}
+#send-keyboard{
+    background-color: var(--light-primary);
+    color: var(--light-background);
+}
+#keyboard-btns{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row: 2/3;
+}
+#setpad{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: scroll;
+    border-top: 1px solid var(--light-primary);
+    border-right: 1px solid var(--light-primary);
+}
+.setoppbtn{
+    width: 5em;
+    height: 5em;
+    background-color: var(--light-primary);
+    border-radius: 25%;
+    color: var(--light-background);
+    margin: 0.5rem;
+}
+#oppad{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(2,1fr);
+    border-top: 1px solid var(--light-primary);
+    border-left: 1px solid var(--light-primary);
+}
+.keyboardbtn{
+    width: 95%;
+    height: 95%;
+    background-color: var(--light-primary);
+    border-radius: 25%;
+    color: var(--light-background);
+    margin: 2.5%;
+}

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
-import {SetContext} from '../Context'
-import SetForm from './SetForm'
+import {SetContext} from '../../Context'
+import SetForm from '../SetForm/SetForm'
 
 export default function SetContentForms() {
   const context = useContext(SetContext)

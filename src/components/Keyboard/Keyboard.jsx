@@ -1,8 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react'
-import { SetContext } from '../Context'
+import { SetContext } from '../../Context'
 
 export default function Keyboard() {
-
   const context = useContext(SetContext)
   //used to display the input value when an input is added from a button and move the cursor to a correct position
   const [inputVal, setInputVal] = useState({
@@ -178,7 +177,8 @@ export default function Keyboard() {
   },[inputVal.val])
 
   return (
-    <div id="setkeyboard">
+    <section id='keyboard-container' className={`${context.isSidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'}`}>
+<div id="setkeyboard" >
       <form id='keyboard-form' onSubmit={makeOperation}>
         <input ref={inputref} type="text" id='keyboard-input' value={inputVal.val} onChange={handleChange}></input>
         <button id='send-keyboard' type='submit'>Make Operation</button>
@@ -203,9 +203,9 @@ export default function Keyboard() {
           <button className={`keyboardbtn ${keyboardState.ispartOf}`} onClick={()=>{addInputVal("∈", keyboardState.ispartOf)}}>∈</button>
           <button className={`keyboardbtn`} onClick={()=>{addInputVal("()", 'show')}}>()</button>
         </div>
-        
-        
       </div>
     </div>
+    </section>
+    
   )
 }
