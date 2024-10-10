@@ -185,10 +185,15 @@ export default function Keyboard() {
       </form>
       <div id='keyboard-btns'>
         <div id='setpad' className={keyboardState.setpad}>
-          {context.setelements.map(el => (
-            <button className='setoppbtn' key={`set${el.sets.join('')}`} onClick={()=>{
-              addInputVal(el.sets.join(''), keyboardState.setpad)}}>{el.sets.join('')
+          {context.setelements.map((el, index) => (
+            <button 
+              className='setoppbtn' 
+              key={`set${el.sets.join('')}`} 
+              onClick={()=>{
+                addInputVal(el.sets.join(''), keyboardState.setpad)}
               }
+              style={{'backgroundColor' : context.colors[index]}}>
+              {el.sets.join('')}
             </button>
           ))}
         </div>

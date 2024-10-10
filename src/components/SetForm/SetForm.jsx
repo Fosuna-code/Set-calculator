@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import { SetContext } from '../../Context'
 
-export default function SetForm({setname}) {
+export default function SetForm({setname, color}) {
     const context = useContext(SetContext)
     const modifySet = context.modifySet
+    console.log(color)
     return (
         <form onSubmit={modifySet} className='setelements-form'>
-            <label htmlFor={`${setname}`} className='setelements-label'>{`${setname}`}</label>
+            <label htmlFor={`${setname}`} className='setelements-label' style={{'backgroundColor': color}}>{`${setname}`}</label>
             <input type="text" placeholder='Separate each element with commas' id={setname} name='setelements' className='setelements-input'/>
             <div className='form-btn-container'>
                 <button type='submit' className='setelements-btn'>
