@@ -1,24 +1,22 @@
-import React from "react";
-import { SetProvider } from "../Context";
-import SetAdding from "../components/SetAdding";
+import React, { useContext } from "react";
+import { SetContext, SetProvider } from "../Context";
+import SetAdding from "../components/SetAdding/SetAdding";
 
-import Venn from "../components/Venn";
-import Sidebar from "../components/Sidebar";
-import Keyboard from "../components/Keyboard";
+import Venn from "../components/Venn/Venn";
+import Sidebar from "../components/Sidebar/Sidebar";
+import Keyboard from "../components/Keyboard/Keyboard";
 function App(){
+    const context = useContext(SetContext)
     return (
         <div id="setprovider-container">
             <SetProvider>
-                <section id="diagramPlusForm-container">
+                
                     <Venn/>
-                    <SetAdding/>
-                </section>
-                <section id="sidebar-container">
-                    <Sidebar/>
-                </section>
-                <section id="keyboard-container">
-                    <Keyboard/>
-                </section>
+                    
+                        <SetAdding/>
+                    
+                <Sidebar/>
+                <Keyboard/>
             </SetProvider>
         </div>    
     )

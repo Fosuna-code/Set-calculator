@@ -1,0 +1,66 @@
+#setAdding-container{
+    width: 100%;
+    height: 100%;
+    grid-row: 2/3;
+    grid-column: 3/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#setAdding-container{
+    grid-column: 3/4;
+}
+#addsetForm{
+    width: 97.5%;
+    height: 95%;
+    display: grid;
+    grid-template-columns: 20% 70% 10%;
+    grid-template-rows: 100%;
+    
+}
+#setname-container{
+    width: 100%;
+    height: 95%;
+    grid-column: 2/3;
+    border: 1px solid var(--light-primary);
+    background-color: var(--light-unselected);
+    color: black;
+}
+#setname{
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    text-align: center;
+}
+#setlabel-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 95%;
+    grid-column: 1/2; 
+    border-radius: 1em 0 0 1em;
+    border: 1px solid var(--light-primary);
+    background-color: var(--light-background);
+}
+#addsetLabel {
+    font-family: monospace;
+    font-size: 16px;
+    color: var(--light-primary);
+}
+#setbtn-container{
+    width: 95%;
+    height: 95%;
+    grid-column: 3/4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 1em 1em 0;
+    background-color: var(--light-primary);
+    border: 1px solid var(--light-primary);
+}
+#addsetBtn {
+    width: 100%;
+    height: 100%;
+    color: white;
+}

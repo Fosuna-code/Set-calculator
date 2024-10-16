@@ -1,99 +1,58 @@
 *{
     margin: 0;
     padding: 0;
+    overflow: hidden;
+    outline: none;
+    border: none;
+    font-family: 'Open sans', 'noto sans', sans-serif;
 }
-.container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-canvas {
-    border: 1px solid black;
-}
-p{
-    display: inline-block;
+button[type="submit"],
+button[type="button"] {
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    font-size: inherit; 
+    cursor: pointer; 
+    padding: 0;
     margin: 0;
 }
-input{
-    display: inline-block;
-}
-#diagramPlusForm-container{
-    width: 100%;
-    height: 100%;
-    margin-top: 1vh;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    grid-column: 2/3;
-    grid-row: 1/2;
-}
-
-#venn{
-    margin: 0;
-    width: 90%;
-    height: 80%;
-    padding: 0 1rem 0 1rem;
-    border: 1px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#addsetForm{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5vh;
-}
-#addsetLabel{
-    margin-right: 1vw;
+:root{
+    --light-background: #FAF9F9;
+    --light-primary: #89AFAE;
+    --light-workarea: #F5F4F4;
+    --light-unselected: #FAF9F9;
+    --light-button: #A2D729;
+    --dark-keep: #011936;
 }
 #setprovider-container{
     width: 100vw;
     display: grid;
-    grid-template-columns: 30vw 70vw;
-    grid-template-rows: 65vh 35vh;
+    grid-template-columns: 5vw 25vw 70vw;
+    grid-template-rows: 60vh 5vh 35vh;
+    background-color: var(--light-background);
 }
-#sidebar-container{
-    height: 100%;
-    width: 100%;
-    grid-column: 1/2;
-    grid-row: 1/2;
-    display: grid;
-    grid-template-columns: 15% 85%;
-    grid-template-rows: 15% 85%;
-}
-#sidebar{
-    border: 1px solid black;
-    width: 100%;
-    height: 100%;
-    flex-flow: column nowrap;
+
+#set-adder-container{
+    grid-row: 2/3;
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    grid-column: 2/3;
-    grid-row: 1/3;
-}
-#toggle-sidebar{
-    align-self: start;
-    grid-column: 1/2;
-    grid-row: 1/2;
-    height: 100%;
-    width: 100%;
-}
-#sidebar-menu{
-    display: flex;
-    flex-flow: column;
     align-items: center;
     justify-content: center;
-    grid-row: 2/3;
-    grid-column: 1/2;
+}
+#keyboard-container{
+    width: 100%;
+    height: 100%;
+    grid-row: 3/4;
+    grid-column: 3/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#keyboard-container.sidebar-hidden{
+    grid-column: 2/4;
+}
+#setAdding-container.sidebar-hidden{
+    grid-column: 2/4;
 }
 .sidebar-active{
     visibility: visible;
@@ -101,125 +60,14 @@ input{
 .sidebar-inactive{
     visibility: hidden;
 }
-.setelements-form{
-    width: 22.5vw;
-    height: 5vh;
-    margin: 1rem 0 1rem 0;
-    display: grid;
-    grid-template-columns: 85% 15%;
-    grid-template-rows: repeat(50%, 2);
-    padding: 0.5rem;
-}
-.setelements-label{
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    grid-column: 1/3;
-    grid-row: 1/2;
-}
-.setelements-btn{
-    width: 100%;
-    height: 100%;
-    grid-column: 2/3;
-    grid-row: 2/3;
-}
-#keyboard-container{
-    width: 100%;
-    height: 100%;
-    grid-row: 2/3;
-    grid-column: 1/3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.keyboardbtn{
-    width: 100%;
-    height: 100%;
-}
-#setkeyboard{
-    width: 40%;
-    height: 90%;
-    display: grid;
-    grid-template-rows: 20% 80%;
-    grid-row: 1/2;
-}
-#keyboard-btns{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-row: 2/3;
-}
-#setpad{
-    display: flex;
-    flex-flow: row wrap;
-    align-items: flex-start;
-    justify-content: center;
-    overflow-y: scroll;
-}
-.setoppbtn{
-    width: 19%;
-    height: 25%;
-    padding: 0 1% 1% 0;
-}
-#oppad{
-    display: grid;
-    grid-template-columns: repeat(5,1fr);
-    grid-template-rows: repeat(2,1fr);
-}
+
 .hide{
     opacity: 30%;
 }
 .show{
     opacity: 100%;
 }
-#keyboard-form{
-    border: 1px solid black;
-    display: grid;
-    grid-template-columns: 80% 20%;
-}
-.setelements-display{
-    width: 99%;
-    height: auto;
-    margin-bottom: 0.5vh;
-    border: 1px solid black;
-    display: grid;
-    grid-template-columns: 70% 30%;
-    grid-template-rows: repeat(2, 1fr);
-}
-.el-display-h5{
-    text-align: center;
-    width: 100%;
-    height: 1vh;
-    grid-column: 1/3;
-    grid-row: 1/2;
-    
-}
-.el-display-p-cont{
-    width: 100%;
-    height: auto;
-    overflow-x: scroll;
-    grid-row: 2/3;
-    grid-column: 1/2;
-}
-.card-display-p-cont{
-    width: 100%;
-    margin-top: 1vh;
-    height: 100%;
-    grid-row: 2/3;
-    grid-column: 2/3;
-}
-.setavailbtn{
-    width: 1;
-}
-#set-btns{
-    display: flex;
-    flex-wrap: wrap;
-    width: 20vw;
-}
 .setavailbtn{
     width: 4vw;
     height: 4vw;
-}
-.elems-p{
-    width: 100%;
-    text-align: center;
 }

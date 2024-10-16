@@ -1,7 +1,7 @@
 export const getRandomHex = ()=>{
-    let r = Math.round(Math.random()*255).toString(16)
-    let g = Math.round(Math.random()*255).toString(16)
-    let b = Math.round(Math.random()*255).toString(16)
+    let r = Math.floor(Math.random()*(223 - 128 + 1) + 128).toString(16)
+    let g = Math.floor(Math.random()*(223 - 128 + 1) + 128).toString(16)
+    let b = Math.floor(Math.random()*(223 - 128 + 1) + 128).toString(16)
     let hex = r+g+b
     return `#${hex}`
 }

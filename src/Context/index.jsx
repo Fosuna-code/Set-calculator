@@ -1,10 +1,11 @@
 import React from "react";
 import { createContext, useState } from "react";
 export const SetContext = createContext();
-
+import {getRandomHex} from '../utilities/randomHexGenerator';
 
 export const SetProvider = ({children }) =>{
-
+    const [colors, setColors] = useState([])
+    const [isSidebarVisible, changeSidebar] = useState(true)
     const [setelements, setSetelements] = useState([
         //it should be filled with objects with the following form:
         //{sets: ['name of the set'], elements: [element1, element2 ... elementn]}
@@ -169,8 +170,10 @@ export const SetProvider = ({children }) =>{
         e.preventDefault()
         const setname = e.target.elements.setname.value
         const newSetelements = [...setelements, {sets: [`${setname}`], elements:[]}]
-
+        const newColors = [...colors]
+        newColors.push(getRandomHex())
         setSetelements(newSetelements)  
+        setColors(newColors);
     }
     
     //this modifies the elements of an already defined set
@@ -183,7 +186,7 @@ export const SetProvider = ({children }) =>{
         console.log(setname)
         for(let setels of setelements){
             if(setels.sets.join('') === setname){
-                setels.elements = Array.from(new Set(elements));
+                setels.elements = Array.from(new Set(elements.map(el => el.trim())));
                 //destructures the elements array for it to change the object reference and force a re-render of Venn
                 const newElements = [...setelements]
                 setSetelements(newElements)
@@ -193,7 +196,7 @@ export const SetProvider = ({children }) =>{
         console.log(confirmedIntersections)
     }
     return( 
-       <SetContext.Provider value={{ setelements,addSet, modifySet, drawInstructions}}>
+       <SetContext.Provider value={{ setelements,addSet, modifySet, drawInstructions, isSidebarVisible, changeSidebar, colors}}>
             {children}
        </SetContext.Provider>
     )

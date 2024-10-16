@@ -1,17 +1,18 @@
 import React, {useContext} from 'react'
-import {SetContext} from '../Context'
-import SetForm from './SetForm'
+import {SetContext} from '../../Context'
+import SetForm from '../SetForm/SetForm'
 
 export default function SetContentForms() {
   const context = useContext(SetContext)
   const allsets = context.setelements
-  
+  const colors = context.colors
   return (
     <div id='setContentForms-container'>
       {allsets.map((el,index) => (
         <SetForm 
           setname={el.sets[0]}
           key={el.sets[0]+index}
+          color={colors[index]}
           />
       ))}
     </div>
